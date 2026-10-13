@@ -2,6 +2,7 @@ import com.jagex.game.runetek5.client.features.GroundItemLabels
 import com.jagex.game.runetek5.client.features.NpcLabels
 import com.jagex.game.runetek5.client.features.XpDrops
 import com.jagex.game.runetek5.client.features.TileMarkers
+import com.jagex.game.runetek5.client.features.FogControl
 import com.jagex.game.runetek5.client.features.SmoothZoom
 import com.jagex.game.runetek5.network.packet.TcpPacket
 import com.jagex.game.runetek5.client.window.WindowModeType
@@ -108,6 +109,12 @@ object ClientCommandProcessor {
 			if (string.equals("smoothzoom", ignoreCase = true)) {
 				SmoothZoom.toggle()
 				Console.printToConsole(if (SmoothZoom.enabled) "Smooth zoom enabled." else "Smooth zoom disabled.")
+				return
+			}
+			// Not part of the original client: turns the wheel's distance-fog control on and off (FogControl).
+			if (string.equals("fogcontrol", ignoreCase = true)) {
+				FogControl.toggle()
+				Console.printToConsole(if (FogControl.enabled) "Fog control enabled." else "Fog control disabled.")
 				return
 			}
 			if (string.equals("shiftdrop", ignoreCase = true)) {

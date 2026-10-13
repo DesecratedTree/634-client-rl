@@ -37,10 +37,10 @@ object AbstractToolkit {
 		}
 		@Pc(45) var fov: Int = (Camera.viewportFovMax.toInt() - Camera.viewportFovMin.toInt()) * heightFactor / 100 + Camera.viewportFovMin.toInt()
 		if (ClientFeatures.ZOOM) {
-			// Not part of the original client: the zoom offset widens the field of view to between a quarter of the
-			// narrowest (and no less than 100) and four times the widest, and is held to that range.
-			var min: Int = kotlin.math.max(Camera.viewportFovMin.toInt() / 4, 100)
-			var max: Int = Camera.viewportFovMax.toInt() * 4
+			// Not part of the original client: the zoom offset widens the field of view to between an eighth of the
+			// narrowest (and no less than 50) and eight times the widest, and is held to that range.
+			var min: Int = kotlin.math.max(Camera.viewportFovMin.toInt() / 8, 50)
+			var max: Int = Camera.viewportFovMax.toInt() * 8
 			if (min > max) {
 				val swap: Int = min
 				min = max

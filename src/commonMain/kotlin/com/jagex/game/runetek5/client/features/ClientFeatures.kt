@@ -46,10 +46,10 @@ object ClientFeatures {
 	val ZOOM: Boolean = lang.getBoolean("client.zoom")
 
 	/**
-	 * The key names `client.zoomKey` accepts, and the keyboard code each one holds down while the
-	 * wheel zooms. `ctrl` is the default; add an entry here for another key.
+	 * The key names a modifier option accepts, and the keyboard code each one holds down. `ctrl` is
+	 * the zoom key's default and `alt` the fog key's; add an entry here for another key.
 	 */
-	private val ZOOM_KEYS: Map<String, Int> = mapOf(
+	private val MODIFIER_KEYS: Map<String, Int> = mapOf(
 		"ctrl" to SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL,
 		"control" to SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL,
 		"alt" to SimpleKeyboardMonitorConstants.KEY_CODE_ALT,
@@ -58,10 +58,17 @@ object ClientFeatures {
 
 	/**
 	 * The key that must be held for the mouse wheel to zoom the camera: `ctrl` by default, or
-	 * `alt`, `shift` or `none` (the wheel zooms without one); see ZOOM_KEYS for the names.
+	 * `alt`, `shift` or `none` (the wheel zooms without one); see MODIFIER_KEYS for the names.
 	 */
 	@JvmField
-	val ZOOM_KEY: Int = zoomKey(lang.getProperty("client.zoomKey"))
+	val ZOOM_KEY: Int = modifierKey("client.zoomKey", "ctrl")
+
+	/**
+	 * The key held for the mouse wheel to move the distance fog in and out: `alt` by default, with
+	 * the same names as the zoom key.
+	 */
+	@JvmField
+	val FOG_KEY: Int = modifierKey("client.fogKey", "alt")
 
 	/** How much further than the original the scene is drawn and fogged; 1 is the original distance. */
 	@JvmField
@@ -168,19 +175,38 @@ object ClientFeatures {
 		return ZOOM_KEY == 0 || KeyRecorder.keyRecorder!!.isPressed(ZOOM_KEY)
 	}
 
-	/** The code of the key `client.zoomKey` names, `ctrl` when it is absent or unknown. */
-	private fun zoomKey(value: String?): Int {
+	/** Whether the fog key is held now; with `none` there is none and the wheel moves the fog without one. */
+	@JvmStatic
+	fun fogKeyHeld(): Boolean {
+		return FOG_KEY == 0 || KeyRecorder.keyRecorder!!.isPressed(FOG_KEY)
+	}
+
+	/**
+	 * Whether the game view's pointer hover (overGameScreen) is worth tracking this tick: the zoom
+	 * and the fog control both take the wheel only while the pointer is over the game view.
+	 */
+	@JvmStatic
+	fun trackGameScreen(): Boolean {
+		return ZOOM || FogControl.enabled
+	}
+
+	/**
+	 * The code of the key the `property` (client.zoomKey, client.fogKey) names: one of
+	 * MODIFIER_KEYS, `none` for no key, or the fallback key when it is absent or unknown.
+	 */
+	private fun modifierKey(property: String, fallback: String): Int {
+		val value: String? = lang.getProperty(property)
 		if (value == null) {
-			return SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL
+			return MODIFIER_KEYS[fallback]!!
 		}
 		val name: String = value.javaToLowerCase().javaTrim()
 		if (name == "none") {
 			return 0
 		}
-		val key: Int? = ZOOM_KEYS[name]
+		val key: Int? = MODIFIER_KEYS[name]
 		if (key == null) {
-			lang.printlnErr("client.zoomKey: unknown key " + value + ", using ctrl")
-			return SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL
+			lang.printlnErr(property + ": unknown key " + value + ", using " + fallback)
+			return MODIFIER_KEYS[fallback]!!
 		}
 		return key
 	}

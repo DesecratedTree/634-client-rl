@@ -14,6 +14,7 @@ import com.jagex.game.runetek5.entity.pathingentity.player.PlayerUpdate
 import com.jagex.game.runetek5.graphics.Toolkit
 import com.jagex.game.runetek5.EnvironmentSamplerCacheReset
 import com.jagex.game.runetek5.client.ClientState
+import com.jagex.game.runetek5.client.features.FogControl
 import com.jagex.game.runetek5.SunPositionZ
 import com.jagex.game.runetek5.entity.StaticLocation
 import com.jagex.game.runetek5.preference.GamePreferences
@@ -386,7 +387,10 @@ object EnvironmentManager {
 	@OriginalMember(owner = "client!aq", name = "b", descriptor = "(I)V")
 	@JvmStatic
 	fun applyFogSettings() {
-		EnvironmentManager.toolkit!!.L(EnvironmentManager.fogColour, if (GamePreferences.uid!!.fog!!.getValue() == 1) (EnvironmentManager.fogDepth + 256) shl 2 else -1, 0)
+		// Not part of the original client: FogControl moves the fog in and out while its key is held;
+		// with it off the depth is the environment's own, as the original set it.
+		val distance: Int = if (GamePreferences.uid!!.fog!!.getValue() == 1) (FogControl.depth(EnvironmentManager.fogDepth) + 256) shl 2 else -1
+		EnvironmentManager.toolkit!!.L(EnvironmentManager.fogColour, distance, 0)
 	}
 
 	@OriginalMember(owner = "client!vj", name = "b", descriptor = "(B)V")

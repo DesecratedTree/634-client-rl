@@ -55,7 +55,7 @@ java -jar runetek5-634-2.1.0.jar --tile-markers --xp-drops --npc-labels
 ## Options
 
 With no options the client starts with these on: up to 144 frames a second, twice the render
-distance, the wider zoom, the better console and shift-drop, and a scale that suits the screen
+distance, the wider zoom with smooth zooming and the wheel's fog control, the better console and shift-drop, and a scale that suits the screen
 (1.5 from 1080p, 2 at 4K). Each option below overrides its default; the other extras are off until
 you turn them on. Most can also be turned on and off in game with the command shown.
 
@@ -86,7 +86,9 @@ for a server that changed them.
 | `--no-shift-drop` | Turn off dropping an item with Shift and a left click (on by default). | `::shiftdrop` |
 | `--no-zoom` | Keep the mouse wheel to the original zoom range (the wider range is on by default). | |
 | `--zoom-key <key>` | The key held while the wheel zooms the camera: `ctrl` (default), `alt`, `shift` or `none`. | |
-| `--smooth-zoom` | Ease the mouse-wheel zoom toward the wheel instead of stepping it (HDOS style). | `::smoothzoom` |
+| `--no-smooth-zoom` | Step the mouse-wheel zoom instead of easing it (smoothing, HDOS style, is on by default). | `::smoothzoom` |
+| `--fog-key <key>` | The key held while the wheel moves the distance fog: `alt` (default), `ctrl`, `shift` or `none`. | |
+| `--no-fog-control` | Stop the key and wheel moving the distance fog (on by default). | `::fogcontrol` |
 | `--render-distance <x>` | Draw the world x times further away. The default is 2; `1` is the original distance. | |
 
 **Graphics**

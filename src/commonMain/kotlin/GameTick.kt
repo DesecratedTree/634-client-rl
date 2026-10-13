@@ -25,6 +25,7 @@ import org.openrs2.deob.annotation.Pc
 import com.jagex.game.runetek5.client.input.keyboard.KeyRecord
 import com.jagex.game.runetek5.client.event.mouse.MouseLog
 import com.jagex.game.runetek5.client.features.ClientFeatures
+import com.jagex.game.runetek5.client.features.FogControl
 import com.jagex.game.runetek5.client.features.SmoothZoom
 import com.jagex.game.runetek5.client.input.console.CommandExecutor
 import com.jagex.game.runetek5.client.menu.MenuInteraction
@@ -451,7 +452,7 @@ object GameTick {
 		if (!MiniMenu.interfaceSelectionActive) {
 			Cursor.interfaceCursorId = -1
 		}
-		if (ClientFeatures.ZOOM) {
+		if (ClientFeatures.trackGameScreen()) {
 			ClientFeatures.overGameScreen = false
 		}
 		InterfaceInputTick.processRootInterfaceInput()
@@ -462,6 +463,11 @@ object GameTick {
 			if (LoginManager.staffModLevel <= 0 || !KeyRecorder.keyRecorder!!.isPressed(82) || !KeyRecorder.keyRecorder!!.isPressed(81)) {
 				SmoothZoom.wheel(ClientFeatures.wheelDelta)
 			}
+		}
+		if (FogControl.enabled && ClientFeatures.overGameScreen && ClientFeatures.wheelDelta != 0 && !Console.isOpen() && ClientFeatures.fogKeyHeld()) {
+			// Not part of the original client: while the fog key (Alt by default; client.fogKey) is held,
+			// the wheel moves the distance fog in and out (FogControl).
+			FogControl.wheel(ClientFeatures.wheelDelta)
 		}
 		// Not part of the original client: eases the field of view toward the wheel with smooth zoom.
 		SmoothZoom.tick()

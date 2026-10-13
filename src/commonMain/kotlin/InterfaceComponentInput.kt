@@ -139,7 +139,7 @@ object InterfaceComponentInput {
 									Cursor.interfaceCursorId = -1
 								}
 							}
-							if (ClientFeatures.ZOOM && component.isHooked && (idHash == 48889856 || idHash == 35913731)) {
+							if (ClientFeatures.trackGameScreen() && component.isHooked && (idHash == 48889856 || idHash == 35913731)) {
 								// Not part of the original client: the pointer is over the game view of the fixed or resizable layout.
 								ClientFeatures.overGameScreen = true
 							}
@@ -213,8 +213,8 @@ object InterfaceComponentInput {
 									hookRequest2.mouseY = client.mouseWheelDelta
 									hookRequest2.params = component.onMouseMove
 									InterfaceManager.PENDING_HOOK_REQUESTS.addLast(hookRequest2)
-									if (ClientFeatures.ZOOM) {
-										// Not part of the original client: an interface that scrolls takes the wheel from the zoom.
+									if (ClientFeatures.trackGameScreen()) {
+										// Not part of the original client: an interface that scrolls takes the wheel from the zoom or fog.
 										ClientFeatures.overGameScreen = false
 									}
 								}

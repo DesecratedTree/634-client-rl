@@ -16,6 +16,8 @@ object LauncherDefaults {
 		setDefault("client.fps", "180")
 		setDefault("client.renderDistance", "2")
 		setDefault("client.zoom", "true")
+		setDefault("client.smoothZoom", "true")
+		setDefault("client.fogControl", "true")
 		setDefault("client.console", "true")
 		setDefault("client.shiftDrop", "true")
 		setDefault("client.scale", "1")
