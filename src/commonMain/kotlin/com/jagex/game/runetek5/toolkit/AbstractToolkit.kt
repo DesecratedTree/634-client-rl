@@ -3,6 +3,7 @@ package com.jagex.game.runetek5.toolkit
 import org.openrs2.deob.annotation.OriginalMember
 import com.jagex.game.runetek5.client.GameShell
 import com.jagex.game.runetek5.client.features.ClientFeatures
+import com.jagex.game.runetek5.client.features.SmoothZoom
 import com.jagex.game.runetek5.client.input.camera.Camera
 import org.openrs2.deob.annotation.OriginalArg
 import org.openrs2.deob.annotation.Pc
@@ -45,7 +46,13 @@ object AbstractToolkit {
 				min = max
 				max = swap
 			}
-			val zoomed: Int = kotlin.math.min(kotlin.math.max(fov + ClientFeatures.zoomOffset, min), max)
+			val wanted: Int = fov + ClientFeatures.zoomOffset
+			val zoomed: Int = kotlin.math.min(kotlin.math.max(wanted, min), max)
+			if (zoomed != wanted) {
+				// Not part of the original client: the zoom is at an end of its range, so smooth zoom's
+				// target follows it there (SmoothZoom); nothing when smooth zoom is off.
+				SmoothZoom.clampTarget(zoomed - fov)
+			}
 			ClientFeatures.zoomOffset = zoomed - fov
 			fov = zoomed
 		}

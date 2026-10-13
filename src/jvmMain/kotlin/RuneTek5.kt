@@ -33,6 +33,7 @@ import java.util.regex.Pattern
  * --lang <english|german>     the language (default english)
  * --debug                     ids and coordinates on menus and in the fps overlay
  * --zoom, --no-zoom          a wider mouse-wheel zoom (default on)
+ * --zoom-key <key>            the key held for the wheel to zoom: ctrl (default), alt, shift or none
  * --render-distance <x>       draw and fog distance times x (default 2)
  * --fps <n>                   frames drawn per second (default 144); the game logic stays at 50 per second
  * --scale <x>                 window pixels per game pixel (default from the screen: 1, 1.5 from 1080 lines
@@ -98,6 +99,7 @@ object RuneTek5 {
                 "--debug" -> System.setProperty("client.debug", "true")
                 "--zoom" -> System.setProperty("client.zoom", "true")
                 "--no-zoom" -> System.setProperty("client.zoom", "false")
+                "--zoom-key" -> System.setProperty("client.zoomKey", value(args, ++i, arg))
                 "--console" -> System.setProperty("client.console", "true")
                 "--no-console" -> System.setProperty("client.console", "false")
                 "--shift-drop" -> System.setProperty("client.shiftDrop", "true")
@@ -265,7 +267,7 @@ object RuneTek5 {
             usage: RuneTek5 [--address host] [--port port] [--keys game.properties]
                             [--login-modulus hex] [--js5-modulus hex] [--server void|jagex] [--packets file]
                             [--world id] [--lang english|german]
-                            [--debug] [--[no-]zoom] [--render-distance x] [--fps n] [--scale x] [--msaa n] [--smaa] [--render-scale x] [--no-a2c] [--[no-]console] [--[no-]shift-drop] [--dev]
+                            [--debug] [--[no-]zoom] [--zoom-key key] [--render-distance x] [--fps n] [--scale x] [--msaa n] [--smaa] [--render-scale x] [--no-a2c] [--[no-]console] [--[no-]shift-drop] [--dev]
                             [--tile-markers] [--xp-drops] [--npc-labels] [--ground-items]""".trimIndent())
     }
 }

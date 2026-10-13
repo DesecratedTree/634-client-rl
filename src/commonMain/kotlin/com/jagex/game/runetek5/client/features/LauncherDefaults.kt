@@ -13,12 +13,12 @@ object LauncherDefaults {
 	 * on, in the desktop's (or the browser's) own units, or 0 when there is no screen.
 	 */
 	fun apply(screenHeight: Int) {
-		setDefault("client.fps", "144")
+		setDefault("client.fps", "180")
 		setDefault("client.renderDistance", "2")
 		setDefault("client.zoom", "true")
 		setDefault("client.console", "true")
 		setDefault("client.shiftDrop", "true")
-		setDefault("client.scale", scaleFor(screenHeight))
+		setDefault("client.scale", "1")
 	}
 
 	/**

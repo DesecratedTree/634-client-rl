@@ -2,6 +2,7 @@ import com.jagex.game.runetek5.client.features.GroundItemLabels
 import com.jagex.game.runetek5.client.features.NpcLabels
 import com.jagex.game.runetek5.client.features.XpDrops
 import com.jagex.game.runetek5.client.features.TileMarkers
+import com.jagex.game.runetek5.client.features.SmoothZoom
 import com.jagex.game.runetek5.network.packet.TcpPacket
 import com.jagex.game.runetek5.client.window.WindowModeType
 import com.jagex.game.runetek5.core.constants.MainLogicStep
@@ -101,6 +102,12 @@ object ClientCommandProcessor {
 			if (string.equals("tilemarkers", ignoreCase = true)) {
 				TileMarkers.enabled = !TileMarkers.enabled
 				Console.printToConsole(if (TileMarkers.enabled) "Tile markers enabled." else "Tile markers disabled.")
+				return
+			}
+			// Not part of the original client: turns HDOS-style smooth zoom on and off (SmoothZoom).
+			if (string.equals("smoothzoom", ignoreCase = true)) {
+				SmoothZoom.toggle()
+				Console.printToConsole(if (SmoothZoom.enabled) "Smooth zoom enabled." else "Smooth zoom disabled.")
 				return
 			}
 			if (string.equals("shiftdrop", ignoreCase = true)) {

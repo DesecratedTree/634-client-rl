@@ -85,6 +85,7 @@ for a server that changed them.
 | `--ground-items` | The names (and counts) of the items on each tile, above it. | `::grounditems` |
 | `--no-shift-drop` | Turn off dropping an item with Shift and a left click (on by default). | `::shiftdrop` |
 | `--no-zoom` | Keep the mouse wheel to the original zoom range (the wider range is on by default). | |
+| `--zoom-key <key>` | The key held while the wheel zooms the camera: `ctrl` (default), `alt`, `shift` or `none`. | |
 | `--render-distance <x>` | Draw the world x times further away. The default is 2; `1` is the original distance. | |
 
 **Graphics**

@@ -11,7 +11,9 @@ import com.jagex.game.runetek5.graphics.Toolkit
 import com.jagex.game.runetek5.graphics.gl.GlToolkit
 import com.jagex.game.runetek5.statics.OutPlayerIndexCount
 import com.jagex.game.runetek5.entity.pathingentity.player.PlayerUpdate
+import com.jagex.game.runetek5.client.event.keyboard.SimpleKeyboardMonitorConstants
 import com.jagex.game.runetek5.client.input.camera.Camera
+import com.jagex.game.runetek5.client.input.keyboard.KeyRecorder
 import com.jagex.game.runetek5.tools.LocalizedText
 import com.jagex.game.runetek5.NPCList
 import com.jagex.game.runetek5.client.ClientState
@@ -42,6 +44,24 @@ object ClientFeatures {
 	/** A mouse-wheel zoom wider than the original field of view allows. */
 	@JvmField
 	val ZOOM: Boolean = lang.getBoolean("client.zoom")
+
+	/**
+	 * The key names `client.zoomKey` accepts, and the keyboard code each one holds down while the
+	 * wheel zooms. `ctrl` is the default; add an entry here for another key.
+	 */
+	private val ZOOM_KEYS: Map<String, Int> = mapOf(
+		"ctrl" to SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL,
+		"control" to SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL,
+		"alt" to SimpleKeyboardMonitorConstants.KEY_CODE_ALT,
+		"shift" to SimpleKeyboardMonitorConstants.KEY_CODE_SHIFT
+	)
+
+	/**
+	 * The key that must be held for the mouse wheel to zoom the camera: `ctrl` by default, or
+	 * `alt`, `shift` or `none` (the wheel zooms without one); see ZOOM_KEYS for the names.
+	 */
+	@JvmField
+	val ZOOM_KEY: Int = zoomKey(lang.getProperty("client.zoomKey"))
 
 	/** How much further than the original the scene is drawn and fogged; 1 is the original distance. */
 	@JvmField
@@ -141,6 +161,29 @@ object ClientFeatures {
 	/** The last wheel movement of this tick, kept apart because the console clears the shared one. */
 	@JvmField
 	var wheelDelta: Int = 0
+
+	/** Whether the zoom key is held now; with `none` there is none and the wheel zooms without one. */
+	@JvmStatic
+	fun zoomKeyHeld(): Boolean {
+		return ZOOM_KEY == 0 || KeyRecorder.keyRecorder!!.isPressed(ZOOM_KEY)
+	}
+
+	/** The code of the key `client.zoomKey` names, `ctrl` when it is absent or unknown. */
+	private fun zoomKey(value: String?): Int {
+		if (value == null) {
+			return SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL
+		}
+		val name: String = value.javaToLowerCase().javaTrim()
+		if (name == "none") {
+			return 0
+		}
+		val key: Int? = ZOOM_KEYS[name]
+		if (key == null) {
+			lang.printlnErr("client.zoomKey: unknown key " + value + ", using ctrl")
+			return SimpleKeyboardMonitorConstants.KEY_CODE_CONTROL
+		}
+		return key
+	}
 
 	private fun server(value: String?): String {
 		if (value == null || value.equals("void", ignoreCase = true)) {
