@@ -120,7 +120,7 @@ tasks.register<JavaExec>("runClient") {
     javaLauncher = clientLauncher
     jvmArgs = clientJvmArgs
     args = listOf("3594", "3594", "0", "live", "english", "game0")
-    listOf("client.debug", "client.zoom", "client.zoomKey", "client.renderDistance", "client.console", "client.shiftDrop", "client.msaa", "client.smaa", "client.renderScale", "client.a2c", "client.server", "client.packets", "client.fps", "client.scale", "client.address", "client.port",
+    listOf("client.debug", "client.zoom", "client.zoomKey", "client.smoothZoom", "client.renderDistance", "client.console", "client.shiftDrop", "client.msaa", "client.smaa", "client.renderScale", "client.a2c", "client.server", "client.packets", "client.fps", "client.scale", "client.address", "client.port",
         "client.test", "client.test.user", "client.test.password", "client.test.frames", "client.test.timeout",
         "client.test.shot", "client.test.reference", "client.test.tolerance", "client.test.detailTolerance", "client.test.command", "client.test.commandFrames", "client.test.chat", "client.test.chatFrames", "client.test.windowModes", "client.test.subInterfaces", "client.test.menuWalk", "client.test.menuWalkHome", "client.test.media", "client.test.markers", "client.tileMarkers", "client.xpDrops", "client.npcLabels", "client.groundItemLabels", "client.test.groundItems", "client.test.npcLabels", "client.test.xpDrops", "client.test.toolkit", "client.test.bench", "client.test.benchMode")
         .forEach { name -> providers.gradleProperty(name).orNull?.let { systemProperty(name, it) } }
