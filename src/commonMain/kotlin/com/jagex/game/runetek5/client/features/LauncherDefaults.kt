@@ -19,7 +19,6 @@ object LauncherDefaults {
 		setDefault("client.console", "true")
 		setDefault("client.shiftDrop", "true")
 		setDefault("client.scale", "1")
-		setDefault("client.smoothzoom", "1")
 	}
 
 	/**
